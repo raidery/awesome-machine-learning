@@ -21,6 +21,8 @@ NumPy 通常与 **SciPy**（Scientific Python）和 **Matplotlib**（绘图库�
 NumPy 是开源的，这是它的一个额外的优势。
 
 
+[https://www.tutorialspoint.com/numpy/index.htm](https://www.tutorialspoint.com/numpy/index.htm)
+
 
 # NumPy - 环境
 
