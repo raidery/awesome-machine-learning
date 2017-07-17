@@ -104,3 +104,108 @@ ImportError: No module named 'numpy'
 
 或者，使用以下语法导入NumPy包。
 
+
+
+# NumPy - Ndarray 对象
+
+NumPy 中定义的最重要的对象是称为 `ndarray` 的 N 维数组类型。 它描述相同类型的元素集合。 可以使用基于零的索引访问集合中的项目。
+
+`ndarray`中的每个元素在内存中使用相同大小的块。 `ndarray`中的每个元素是数据类型对象的对象（称为 `dtype`）。
+
+从`ndarray`对象提取的任何元素（通过切片）由一个数组标量类型的 Python 对象表示。 下图显示了`ndarray`，数据类型对象（`dtype`）和数组标量类型之间的关系。
+
+![Ndarray](https://www.tutorialspoint.com//numpy/images/ndarray.jpg)
+
+`ndarray`类的实例可以通过本教程后面描述的不同的数组创建例程来构造。 基本的`ndarray`是使用 NumPy 中的数组函数创建的，如下所示：
+
+```
+numpy.array 
+
+```
+
+它从任何暴露数组接口的对象，或从返回数组的任何方法创建一个ndarray。
+
+```
+numpy.array(object, dtype = None, copy = True, order = None, subok = False, ndmin = 0)
+
+```
+
+上面的构造器接受以下参数：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `object` 任何暴露数组接口方法的对象都会返回一个数组或任何（嵌套）序列。 |
+| 2. | `dtype` 数组的所需数据类型，可选。 |
+| 3. | `copy` 可选，默认为`true`，对象是否被复制。 |
+| 4. | `order` `C`（按行）、`F`（按列）或`A`（任意，默认）。 |
+| 5. | `subok` 默认情况下，返回的数组被强制为基类数组。 如果为`true`，则返回子类。 |
+| 6. | `ndimin` 指定返回数组的最小维数。 |
+
+看看下面的例子来更好地理解。
+
+## 示例 1
+
+```
+import numpy as np 
+a = np.array([1,2,3])  
+print a
+```
+
+输出如下：
+
+```
+[1, 2, 3]
+
+```
+
+## 示例 2
+
+```
+# 多于一个维度  
+import numpy as np 
+a = np.array([[1,  2],  [3,  4]])  
+print a
+```
+
+输出如下：
+
+```
+[[1, 2] 
+ [3, 4]]
+
+```
+
+## 示例 3
+
+```
+# 最小维度  
+import numpy as np 
+a = np.array([1,  2,  3,4,5], ndmin =  2)  
+print a
+```
+
+输出如下：
+
+```
+[[1, 2, 3, 4, 5]]
+
+```
+
+## 示例 4
+
+```
+# dtype 参数  
+import numpy as np 
+a = np.array([1,  2,  3], dtype = complex)  
+print a
+```
+
+输出如下：
+
+```
+[ 1.+0.j,  2.+0.j,  3.+0.j]
+
+```
+
+**ndarray ** 对象由计算机内存中的一维连续区域组成，带有将每个元素映射到内存块中某个位置的索引方案。 内存块以按行（C 风格）或按列（FORTRAN 或 MatLab 风格）的方式保存元素。
+
