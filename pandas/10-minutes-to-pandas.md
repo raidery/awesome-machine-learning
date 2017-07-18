@@ -4,7 +4,7 @@
 
 > 译者：[ChaoSimple](http://home.cnblogs.com/u/chaosimple/)
 
-> 来源：[【原】十分钟搞定pandas](http://www.cnblogs.com/chaosimple/p/4153083.html)
+> 来源：[【原】十分钟搞定pandas](https://github.com/wizardforcel/pandas-official-tut-zh/blob/master/10-minutes-to-pandas.md)
 
 官方网站上《10 Minutes to pandas》的一个简单的翻译，原文在[这里](http://pandas.pydata.org/pandas-docs/stable/10min.html)。这篇文章是对 pandas 的一个简单的介绍，详细的介绍请参考：[秘籍](http://pandas.pydata.org/pandas-docs/stable/cookbook.html#cookbook)  。习惯上，我们会按下面格式引入所需要的包：
 
