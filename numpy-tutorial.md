@@ -437,3 +437,183 @@ print a
 *   `'V'`：原始数据（`void`）
 
 
+
+
+# NumPy - 数组属性
+
+这一章中，我们会讨论 NumPy 的多种数组属性。
+
+## `ndarray.shape`
+
+这一数组属性返回一个包含数组维度的元组，它也可以用于调整数组大小。
+
+### 示例 1
+
+```
+import numpy as np 
+a = np.array([[1,2,3],[4,5,6]])  
+print a.shape
+```
+
+输出如下：
+
+```
+(2, 3)
+
+```
+
+### 示例 2
+
+```
+# 这会调整数组大小  
+import numpy as np 
+
+a = np.array([[1,2,3],[4,5,6]]) a.shape =  (3,2)  
+print a 
+```
+
+输出如下：
+
+```
+[[1, 2] 
+ [3, 4] 
+ [5, 6]]
+
+```
+
+### 示例 3
+
+NumPy 也提供了`reshape`函数来调整数组大小。
+
+```
+import numpy as np 
+a = np.array([[1,2,3],[4,5,6]]) 
+b = a.reshape(3,2)  
+print b
+```
+
+输出如下：
+
+```
+[[1, 2] 
+ [3, 4] 
+ [5, 6]]
+
+```
+
+## `ndarray.ndim`
+
+这一数组属性返回数组的维数。
+
+### 示例 1
+
+```
+# 等间隔数字的数组  
+import numpy as np 
+a = np.arange(24)  print a
+```
+
+输出如下：
+
+```
+[0 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16 17 18 19 20 21 22 23] 
+
+```
+
+### 示例 2
+
+```
+# 一维数组  
+import numpy as np 
+a = np.arange(24) a.ndim 
+# 现在调整其大小
+b = a.reshape(2,4,3)  
+print b 
+# b 现在拥有三个维度
+```
+
+输出如下：
+
+```
+[[[ 0,  1,  2] 
+  [ 3,  4,  5] 
+  [ 6,  7,  8] 
+  [ 9, 10, 11]]  
+  [[12, 13, 14] 
+   [15, 16, 17]
+   [18, 19, 20] 
+   [21, 22, 23]]] 
+
+```
+
+## `numpy.itemsize`
+
+这一数组属性返回数组中每个元素的字节单位长度。
+
+### 示例 1
+
+```
+# 数组的 dtype 为 int8（一个字节）  
+import numpy as np 
+x = np.array([1,2,3,4,5], dtype = np.int8)  
+print x.itemsize
+```
+
+输出如下：
+
+```
+1
+
+```
+
+### 示例 2
+
+```
+# 数组的 dtype 现在为 float32（四个字节）  
+import numpy as np 
+x = np.array([1,2,3,4,5], dtype = np.float32)  
+print x.itemsize
+```
+
+输出如下：
+
+```
+4
+
+```
+
+## `numpy.flags`
+
+`ndarray`对象拥有以下属性。这个函数返回了它们的当前值。
+
+| 序号 | 属性及描述 |
+| --- | --- |
+| 1. | `C_CONTIGUOUS (C)` 数组位于单一的、C 风格的连续区段内 |
+| 2. | `F_CONTIGUOUS (F)` 数组位于单一的、Fortran 风格的连续区段内 |
+| 3. | `OWNDATA (O)` 数组的内存从其它对象处借用 |
+| 4. | `WRITEABLE (W)` 数据区域可写入。 将它设置为`flase`会锁定数据，使其只读 |
+| 5. | `ALIGNED (A)` 数据和任何元素会为硬件适当对齐 |
+| 6. | `UPDATEIFCOPY (U)` 这个数组是另一数组的副本。当这个数组释放时，源数组会由这个数组中的元素更新 |
+
+### 示例
+
+下面的例子展示当前的标志。
+
+```
+import numpy as np 
+x = np.array([1,2,3,4,5])  
+print x.flags
+```
+
+输出如下：
+
+```
+C_CONTIGUOUS : True 
+F_CONTIGUOUS : True 
+OWNDATA : True 
+WRITEABLE : True 
+ALIGNED : True 
+UPDATEIFCOPY : False
+
+```
+
