@@ -25,6 +25,7 @@ NumPy 是开源的，这是它的一个额外的优势。
 
 [https://www.tutorialspoint.com/numpy/index.htm](https://www.tutorialspoint.com/numpy/index.htm)
 
+https://github.com/wizardforcel/ts-numpy-tut-zh
 
 # NumPy - 环境
 
@@ -614,6 +615,164 @@ OWNDATA : True
 WRITEABLE : True 
 ALIGNED : True 
 UPDATEIFCOPY : False
+
+```
+
+
+
+# NumPy - 数组创建例程
+
+新的`ndarray`对象可以通过任何下列数组创建例程或使用低级`ndarray`构造函数构造。
+
+## `numpy.empty`
+
+它创建指定形状和`dtype`的未初始化数组。 它使用以下构造函数：
+
+```
+numpy.empty(shape, dtype = float, order = 'C')
+
+```
+
+构造器接受下列参数：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `Shape` 空数组的形状，整数或整数元组 |
+| 2. | `Dtype` 所需的输出数组类型，可选 |
+| 3. | `Order` `'C'`为按行的 C 风格数组，`'F'`为按列的 Fortran 风格数组 |
+
+### 示例
+
+下面的代码展示空数组的例子：
+
+```
+import numpy as np 
+x = np.empty([3,2], dtype =  int)  
+print x
+```
+
+输出如下：
+
+```
+[[22649312    1701344351] 
+ [1818321759  1885959276] 
+ [16779776    156368896]]
+
+```
+
+**注意**：数组元素为随机值，因为它们未初始化。
+
+## `numpy.zeros`
+
+返回特定大小，以 0 填充的新数组。
+
+```
+numpy.zeros(shape, dtype = float, order = 'C')
+
+```
+
+构造器接受下列参数：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `Shape` 空数组的形状，整数或整数元组 |
+| 2. | `Dtype` 所需的输出数组类型，可选 |
+| 3. | `Order` `'C'`为按行的 C 风格数组，`'F'`为按列的 Fortran 风格数组 |
+
+### 示例 1
+
+```
+# 含有 5 个 0 的数组，默认类型为 float  
+import numpy as np 
+x = np.zeros(5)  
+print x
+```
+
+输出如下：
+
+```
+[ 0.  0.  0.  0.  0.]
+
+```
+
+### 示例 2
+
+```
+import numpy as np 
+x = np.zeros((5,), dtype = np.int)  
+print x
+```
+
+输出如下：
+
+```
+[0  0  0  0  0]
+
+```
+
+### 示例 3
+
+```
+# 自定义类型 
+import numpy as np 
+x = np.zeros((2,2), dtype =  [('x',  'i4'),  ('y',  'i4')])  
+print x
+```
+
+输出如下：
+
+
+```
+[[(0,0)(0,0)]
+ [(0,0)(0,0)]]         
+
+```
+
+## `numpy.ones`
+
+返回特定大小，以 1 填充的新数组。
+
+```
+numpy.ones(shape, dtype = None, order = 'C')
+
+```
+
+构造器接受下列参数：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `Shape` 空数组的形状，整数或整数元组 |
+| 2. | `Dtype` 所需的输出数组类型，可选 |
+| 3. | `Order` `'C'`为按行的 C 风格数组，`'F'`为按列的 Fortran 风格数组 |
+
+### 示例 1
+
+```
+# 含有 5 个 1 的数组，默认类型为 float  
+import numpy as np 
+x = np.ones(5)  print x
+```
+
+输出如下：
+
+```
+[ 1.  1.  1.  1.  1.]
+
+```
+
+### 示例 2
+
+```
+import numpy as np 
+x = np.ones([2,2], dtype =  int)  
+print x
+```
+
+输出如下：
+
+```
+[[1  1] 
+ [1  1]]
 
 ```
 
