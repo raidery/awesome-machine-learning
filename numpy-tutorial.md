@@ -1596,3 +1596,2214 @@ print a + b
 下面的图片展示了数组`b`如何通过广播来与数组`a`兼容。
 
 ![array](https://www.tutorialspoint.com//numpy/images/array.jpg) 
+
+
+
+
+# NumPy - 数组上的迭代
+
+NumPy 包包含一个迭代器对象`numpy.nditer`。 它是一个有效的多维迭代器对象，可以用于在数组上进行迭代。 数组的每个元素可使用 Python 的标准`Iterator`接口来访问。
+
+让我们使用`arange()`函数创建一个 3X4 数组，并使用`nditer`对它进行迭代。
+
+
+### 示例 1
+
+```
+import numpy as np
+a = np.arange(0,60,5) 
+a = a.reshape(3,4)  
+print  '原始数组是：'  
+print a print  '\n'  
+print  '修改后的数组是：'  
+for x in np.nditer(a):  
+    print x,
+```
+
+输出如下：
+
+```
+原始数组是：
+[[ 0 5 10 15]
+ [20 25 30 35]
+ [40 45 50 55]]
+
+修改后的数组是：
+0 5 10 15 20 25 30 35 40 45 50 55
+
+```
+
+### 示例 2
+
+迭代的顺序匹配数组的内容布局，而不考虑特定的排序。 这可以通过迭代上述数组的转置来看到。
+
+```
+import numpy as np 
+a = np.arange(0,60,5) 
+a = a.reshape(3,4)  
+print  '原始数组是：'  
+print a 
+print  '\n'  
+print  '原始数组的转置是：' 
+b = a.T 
+print b 
+print  '\n'  
+print  '修改后的数组是：'  
+for x in np.nditer(b):  
+    print x,
+```
+
+输出如下：
+
+```
+原始数组是：
+[[ 0 5 10 15]
+ [20 25 30 35]
+ [40 45 50 55]]
+
+原始数组的转置是：
+[[ 0 20 40]
+ [ 5 25 45]
+ [10 30 50]
+ [15 35 55]]
+
+修改后的数组是：
+0 5 10 15 20 25 30 35 40 45 50 55
+
+```
+
+## 迭代顺序
+
+如果相同元素使用 F 风格顺序存储，则迭代器选择以更有效的方式对数组进行迭代。
+
+### 示例 1
+
+```
+import numpy as np
+a = np.arange(0,60,5) 
+a = a.reshape(3,4)  
+print  '原始数组是：'  
+print a print  '\n'  
+print  '原始数组的转置是：' 
+b = a.T 
+print b 
+print  '\n'  
+print  '以 C 风格顺序排序：' 
+c = b.copy(order='C')  
+print c for x in np.nditer(c):  
+    print x,  
+print  '\n'  
+print  '以 F 风格顺序排序：' 
+c = b.copy(order='F')  
+print c 
+for x in np.nditer(c):  
+    print x,
+```
+
+输出如下：
+
+```
+原始数组是：
+[[ 0 5 10 15]
+ [20 25 30 35]
+ [40 45 50 55]]
+
+原始数组的转置是：
+[[ 0 20 40]
+ [ 5 25 45]
+ [10 30 50]
+ [15 35 55]]
+
+以 C 风格顺序排序：
+[[ 0 20 40]
+ [ 5 25 45]
+ [10 30 50]
+ [15 35 55]]
+0 20 40 5 25 45 10 30 50 15 35 55
+
+以 F 风格顺序排序：
+[[ 0 20 40]
+ [ 5 25 45]
+ [10 30 50]
+ [15 35 55]]
+0 5 10 15 20 25 30 35 40 45 50 55
+
+```
+
+### 示例 2
+
+可以通过显式提醒，来强制`nditer`对象使用某种顺序：
+
+```
+import numpy as np 
+a = np.arange(0,60,5) 
+a = a.reshape(3,4)  
+print  '原始数组是：'  
+print a 
+print  '\n'  
+print  '以 C 风格顺序排序：'  
+for x in np.nditer(a, order =  'C'):  
+    print x,  
+print  '\n'  
+print  '以 F 风格顺序排序：'  
+for x in np.nditer(a, order =  'F'):  
+    print x,
+```
+
+输出如下：
+
+```
+原始数组是：
+[[ 0 5 10 15]
+ [20 25 30 35]
+ [40 45 50 55]]
+
+以 C 风格顺序排序：
+0 5 10 15 20 25 30 35 40 45 50 55
+
+以 F 风格顺序排序：
+0 20 40 5 25 45 10 30 50 15 35 55
+
+```
+
+## 修改数组的值
+
+`nditer`对象有另一个可选参数`op_flags`。 其默认值为只读，但可以设置为读写或只写模式。 这将允许使用此迭代器修改数组元素。
+
+### 示例
+
+```
+import numpy as np
+a = np.arange(0,60,5) 
+a = a.reshape(3,4)  
+print  '原始数组是：'  
+print a 
+print  '\n'  
+for x in np.nditer(a, op_flags=['readwrite']): 
+    x[...]=2*x 
+print  '修改后的数组是：'  
+print a
+```
+
+输出如下：
+
+```
+原始数组是：
+[[ 0 5 10 15]
+ [20 25 30 35]
+ [40 45 50 55]]
+
+修改后的数组是：
+[[ 0 10 20 30]
+ [ 40 50 60 70]
+ [ 80 90 100 110]]
+
+```
+
+## 外部循环
+
+`nditer`类的构造器拥有`flags`参数，它可以接受下列值：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `c_index` 可以跟踪 C 顺序的索引 |
+| 2. | `f_index` 可以跟踪 Fortran 顺序的索引 |
+| 3. | `multi-index` 每次迭代可以跟踪一种索引类型 |
+| 4. | `external_loop` 给出的值是具有多个值的一维数组，而不是零维数组 |
+
+### 示例
+
+在下面的示例中，迭代器遍历对应于每列的一维数组。
+
+```
+import numpy as np 
+a = np.arange(0,60,5) 
+a = a.reshape(3,4)  
+print  '原始数组是：'  
+print a 
+print  '\n'  
+print  '修改后的数组是：'  
+for x in np.nditer(a, flags =  ['external_loop'], order =  'F'):  
+    print x,
+```
+
+输出如下：
+
+```
+原始数组是：
+[[ 0 5 10 15]
+ [20 25 30 35]
+ [40 45 50 55]]
+
+修改后的数组是：
+[ 0 20 40] [ 5 25 45] [10 30 50] [15 35 55]
+
+```
+
+## 广播迭代
+
+如果两个数组是**可广播的**，`nditer`组合对象能够同时迭代它们。 假设数组`a `具有维度 3X4，并且存在维度为 1X4 的另一个数组`b`，则使用以下类型的迭代器（数组`b`被广播到`a`的大小）。
+
+### 示例
+
+```
+import numpy as np 
+a = np.arange(0,60,5) 
+a = a.reshape(3,4)  
+print  '第一个数组：'  
+print a 
+print  '\n'  
+print  '第二个数组：' 
+b = np.array([1,  2,  3,  4], dtype =  int)  
+print b 
+print  '\n'  
+print  '修改后的数组是：'  
+for x,y in np.nditer([a,b]):  
+    print  "%d:%d"  %  (x,y),
+```
+
+输出如下：
+
+```
+第一个数组：
+[[ 0 5 10 15]
+ [20 25 30 35]
+ [40 45 50 55]]
+
+第二个数组：
+[1 2 3 4]
+
+修改后的数组是：
+0:1 5:2 10:3 15:4 20:1 25:2 30:3 35:4 40:1 45:2 50:3 55:4
+
+```
+
+
+
+
+# NumPy - 数组操作
+
+NumPy包中有几个例程用于处理`ndarray`对象中的元素。 它们可以分为以下类型：
+
+## 修改形状
+
+| 序号 | 形状及描述 |
+| --- | --- |
+| 1. | `reshape` 不改变数据的条件下修改形状 |
+| 2. | `flat` 数组上的一维迭代器 |
+| 3. | `flatten` 返回折叠为一维的数组副本 |
+| 4. | `ravel` 返回连续的展开数组 |
+
+### `numpy.reshape`
+
+这个函数在不改变数据的条件下修改形状，它接受如下参数：
+
+```
+numpy.reshape(arr, newshape, order')
+```
+
+其中：
+
++   `arr`：要修改形状的数组
++   `newshape`：整数或者整数数组，新的形状应当兼容原有形状
++   `order`：`'C'`为 C 风格顺序，`'F'`为 F 风格顺序，`'A'`为保留原顺序。
+
+例子
+
+```
+import numpy as np
+a = np.arange(8)
+print '原始数组：'
+print a
+print '\n'
+
+b = a.reshape(4,2)
+print '修改后的数组：'
+print b
+```
+
+输出如下：
+
+```
+原始数组：
+[0 1 2 3 4 5 6 7]
+
+修改后的数组：
+[[0 1]
+ [2 3]
+ [4 5]
+ [6 7]]
+```
+
+### `numpy.ndarray.flat`
+
+该函数返回数组上的一维迭代器，行为类似 Python 内建的迭代器。
+
+例子
+
+```
+import numpy as np
+a = np.arange(8).reshape(2,4)
+print '原始数组：'
+print a
+print '\n'
+
+print '调用 flat 函数之后：'
+# 返回展开数组中的下标的对应元素
+print a.flat[5]
+```
+
+输出如下：
+
+```
+原始数组：
+[[0 1 2 3]
+ [4 5 6 7]]
+
+调用 flat 函数之后：
+5
+```
+
+### `numpy.ndarray.flatten`
+
+该函数返回折叠为一维的数组副本，函数接受下列参数：
+
+```
+ndarray.flatten(order)
+```
+
+其中：
+
++   `order`：`'C'` -- 按行，`'F'` -- 按列，`'A'` -- 原顺序，`'k'` -- 元素在内存中的出现顺序。
+
+例子
+
+```
+import numpy as np
+a = np.arange(8).reshape(2,4)
+
+print '原数组：'
+print a
+print '\n'  
+# default is column-major
+
+print '展开的数组：'
+print a.flatten()
+print '\n'  
+
+print '以 F 风格顺序展开的数组：'
+print a.flatten(order = 'F')
+```
+
+输出如下：
+
+```
+原数组：
+[[0 1 2 3]
+ [4 5 6 7]]
+
+展开的数组：
+[0 1 2 3 4 5 6 7]
+
+以 F 风格顺序展开的数组：
+[0 4 1 5 2 6 3 7]
+```
+
+### `numpy.ravel`
+
+这个函数返回展开的一维数组，并且按需生成副本。返回的数组和输入数组拥有相同数据类型。这个函数接受两个参数。
+
+```
+numpy.ravel(a, order)
+```
+
+构造器接受下列参数：
+
++   `order`：`'C'` -- 按行，`'F'` -- 按列，`'A'` -- 原顺序，`'k'` -- 元素在内存中的出现顺序。
+
+例子
+
+```
+import numpy as np
+a = np.arange(8).reshape(2,4)
+
+print '原数组：'
+print a
+print '\n'  
+
+print '调用 ravel 函数之后：'
+print a.ravel()  
+print '\n'
+
+print '以 F 风格顺序调用 ravel 函数之后：'
+print a.ravel(order = 'F')
+```
+
+```
+原数组：
+[[0 1 2 3]
+ [4 5 6 7]]
+
+调用 ravel 函数之后：
+[0 1 2 3 4 5 6 7]
+
+以 F 风格顺序调用 ravel 函数之后：
+[0 4 1 5 2 6 3 7]
+```
+
+## 翻转操作
+
+| 序号 | 操作及描述 |
+| --- | --- |
+| 1. | `transpose` 翻转数组的维度 |
+| 2. | `ndarray.T` 和`self.transpose()`相同 |
+| 3. | `rollaxis` 向后滚动指定的轴 |
+| 4. | `swapaxes` 互换数组的两个轴 |
+
+### `numpy.transpose`
+
+这个函数翻转给定数组的维度。如果可能的话它会返回一个视图。函数接受下列参数：
+
+```
+numpy.transpose(arr, axes)
+```
+
+其中：
+
++   `arr`：要转置的数组
++   `axes`：整数的列表，对应维度，通常所有维度都会翻转。
+
+例子
+
+```
+import numpy as np
+a = np.arange(12).reshape(3,4)
+
+print '原数组：'
+print a  
+print '\n'
+
+print '转置数组：'
+print np.transpose(a)
+```
+
+输出如下：
+
+```
+原数组：
+[[ 0 1 2 3]
+ [ 4 5 6 7]
+ [ 8 9 10 11]]
+
+转置数组：
+[[ 0 4 8]
+ [ 1 5 9]
+ [ 2 6 10]
+ [ 3 7 11]]
+```
+
+### `numpy.ndarray.T`
+
+该函数属于`ndarray`类，行为类似于` numpy.transpose`。
+
+例子
+
+```
+import numpy as np
+a = np.arange(12).reshape(3,4)
+
+print '原数组：'
+print a
+print '\n'  
+
+print '转置数组：'
+print a.T
+```
+
+输出如下：
+
+```
+原数组：
+[[ 0 1 2 3]
+ [ 4 5 6 7]
+ [ 8 9 10 11]]
+
+转置数组：
+[[ 0 4 8]
+ [ 1 5 9]
+ [ 2 6 10]
+ [ 3 7 11]]
+```
+
+### `numpy.rollaxis`
+
+该函数向后滚动特定的轴，直到一个特定位置。这个函数接受三个参数：
+
+```
+numpy.rollaxis(arr, axis, start)
+```
+
+其中：
+
++   `arr`：输入数组
++   `axis`：要向后滚动的轴，其它轴的相对位置不会改变
++   `start`：默认为零，表示完整的滚动。会滚动到特定位置。
+
+例子
+
+```
+# 创建了三维的 ndarray
+import numpy as np
+a = np.arange(8).reshape(2,2,2)
+
+print '原数组：'
+print a
+print '\n'
+# 将轴 2 滚动到轴 0（宽度到深度）
+
+print '调用 rollaxis 函数：'
+print np.rollaxis(a,2)  
+# 将轴 0 滚动到轴 1：（宽度到高度）
+print '\n'
+
+print '调用 rollaxis 函数：'
+print np.rollaxis(a,2,1)
+```
+
+输出如下：
+
+```
+原数组：
+[[[0 1]
+ [2 3]]
+ [[4 5]
+ [6 7]]]
+
+调用 rollaxis 函数：
+[[[0 2]
+ [4 6]]
+ [[1 3]
+ [5 7]]]
+
+调用 rollaxis 函数：
+[[[0 2]
+ [1 3]]
+ [[4 6]
+ [5 7]]]
+```
+
+### `numpy.swapaxes`
+
+该函数交换数组的两个轴。对于 1.10 之前的 NumPy 版本，会返回交换后数组的试图。这个函数接受下列参数：
+
+```
+numpy.swapaxes(arr, axis1, axis2)
+```
+
++   `arr`：要交换其轴的输入数组
++   `axis1`：对应第一个轴的整数
++   `axis2`：对应第二个轴的整数
+
+```
+# 创建了三维的 ndarray
+import numpy as np
+a = np.arange(8).reshape(2,2,2)
+
+print '原数组：'
+print a
+print '\n'  
+# 现在交换轴 0（深度方向）到轴 2（宽度方向）
+
+print '调用 swapaxes 函数后的数组：'
+print np.swapaxes(a, 2, 0)
+```
+
+输出如下：
+
+```
+原数组：
+[[[0 1]
+ [2 3]]
+
+ [[4 5]
+  [6 7]]]
+
+调用 swapaxes 函数后的数组：
+[[[0 4]
+ [2 6]]
+
+ [[1 5]
+  [3 7]]]
+```
+
+
+## 修改维度
+
+| 序号 | 维度和描述 |
+| --- | --- |
+| 1. | `broadcast` 产生模仿广播的对象 |
+| 2. | `broadcast_to` 将数组广播到新形状 |
+| 3. | `expand_dims` 扩展数组的形状 |
+| 4. | `squeeze` 从数组的形状中删除单维条目 |
+
+### `broadcast`
+
+如前所述，NumPy 已经内置了对广播的支持。 此功能模仿广播机制。 它返回一个对象，该对象封装了将一个数组广播到另一个数组的结果。
+
+该函数使用两个数组作为输入参数。 下面的例子说明了它的用法。
+
+```
+import numpy as np
+x = np.array([[1], [2], [3]])
+y = np.array([4, 5, 6])  
+
+# 对 y 广播 x
+b = np.broadcast(x,y)  
+# 它拥有 iterator 属性，基于自身组件的迭代器元组
+
+print '对 y 广播 x：'
+r,c = b.iters
+print r.next(), c.next()
+print r.next(), c.next()
+print '\n'  
+# shape 属性返回广播对象的形状
+
+print '广播对象的形状：'
+print b.shape
+print '\n'  
+# 手动使用 broadcast 将 x 与 y 相加
+b = np.broadcast(x,y)
+c = np.empty(b.shape)
+
+print '手动使用 broadcast 将 x 与 y 相加：'
+print c.shape
+print '\n'  
+c.flat = [u + v for (u,v) in b]
+
+print '调用 flat 函数：'
+print c
+print '\n'  
+# 获得了和 NumPy 内建的广播支持相同的结果
+
+print 'x 与 y 的和：'
+print x + y
+```
+
+输出如下：
+
+```
+对 y 广播 x：
+1 4
+1 5
+
+广播对象的形状：
+(3, 3)
+
+手动使用 broadcast 将 x 与 y 相加：
+(3, 3)
+
+调用 flat 函数：
+[[ 5. 6. 7.]
+ [ 6. 7. 8.]
+ [ 7. 8. 9.]]
+
+x 与 y 的和：
+[[5 6 7]
+ [6 7 8]
+ [7 8 9]]
+```
+
+### `numpy.broadcast_to`
+
+此函数将数组广播到新形状。 它在原始数组上返回只读视图。 它通常不连续。 如果新形状不符合 NumPy 的广播规则，该函数可能会抛出`ValueError`。
+
+注意 - 此功能可用于 1.10.0 及以后的版本。
+
+该函数接受以下参数。
+
+```
+numpy.broadcast_to(array, shape, subok)
+```
+
+例子
+
+```
+import numpy as np
+a = np.arange(4).reshape(1,4)
+
+print '原数组：'
+print a
+print '\n'  
+
+print '调用 broadcast_to 函数之后：'
+print np.broadcast_to(a,(4,4))
+```
+
+输出如下：
+
+```
+[[0  1  2  3]
+ [0  1  2  3]
+ [0  1  2  3]
+ [0  1  2  3]]
+```
+
+### `numpy.expand_dims`
+
+函数通过在指定位置插入新的轴来扩展数组形状。该函数需要两个参数：
+
+```
+numpy.expand_dims(arr, axis)
+```
+
+其中：
+
++   `arr`：输入数组
++   `axis`：新轴插入的位置
+
+例子
+
+```
+import numpy as np
+x = np.array(([1,2],[3,4]))
+
+print '数组 x：'
+print x
+print '\n'  
+y = np.expand_dims(x, axis = 0)
+
+print '数组 y：'
+print y
+print '\n'
+
+print '数组 x 和 y 的形状：'
+print x.shape, y.shape
+print '\n'  
+# 在位置 1 插入轴
+y = np.expand_dims(x, axis = 1)
+
+print '在位置 1 插入轴之后的数组 y：'
+print y
+print '\n'  
+
+print 'x.ndim 和 y.ndim：'
+print x.ndim,y.ndim
+print '\n'  
+
+print 'x.shape 和 y.shape：'
+print x.shape, y.shape
+```
+
+输出如下：
+
+```
+数组 x：
+[[1 2]
+ [3 4]]
+
+数组 y：
+[[[1 2]
+ [3 4]]]
+
+数组 x 和 y 的形状：
+(2, 2) (1, 2, 2)
+
+在位置 1 插入轴之后的数组 y：
+[[[1 2]]
+ [[3 4]]]
+
+x.shape 和 y.shape：
+2 3
+
+x.shape and y.shape:
+(2, 2) (2, 1, 2)
+```
+
+### `numpy.squeeze`
+
+函数从给定数组的形状中删除一维条目。 此函数需要两个参数。
+
+```
+numpy.squeeze(arr, axis)
+```
+
+其中：
+
++   `arr`：输入数组
++   `axis`：整数或整数元组，用于选择形状中单一维度条目的子集
+
+例子
+
+```
+import numpy as np  
+x = np.arange(9).reshape(1,3,3)
+
+print '数组 x：'
+print x
+print '\n'  
+y = np.squeeze(x)
+
+print '数组 y：'
+print y
+print '\n'  
+
+print '数组 x 和 y 的形状：'
+print x.shape, y.shape
+```
+
+输出如下：
+
+```
+数组 x：
+[[[0 1 2]
+ [3 4 5]
+ [6 7 8]]]
+
+数组 y：
+[[0 1 2]
+ [3 4 5]
+ [6 7 8]]
+
+数组 x 和 y 的形状：
+(1, 3, 3) (3, 3)
+```
+
+## 数组的连接
+
+| 序号 | 数组及描述 |
+| --- | --- |
+| 1. | `concatenate` 沿着现存的轴连接数据序列 |
+| 2. | `stack` 沿着新轴连接数组序列 |
+| 3. | `hstack` 水平堆叠序列中的数组（列方向） |
+| 4. | `vstack` 竖直堆叠序列中的数组（行方向） |
+
+### `numpy.concatenate`
+
+数组的连接是指连接。 此函数用于沿指定轴连接相同形状的两个或多个数组。 该函数接受以下参数。
+
+```
+numpy.concatenate((a1, a2, ...), axis)
+```
+
+其中：
+
++   `a1, a2, ...`：相同类型的数组序列
++   `axis`：沿着它连接数组的轴，默认为 0
+
+例子
+
+```
+import numpy as np
+a = np.array([[1,2],[3,4]])
+
+print '第一个数组：'
+print a
+print '\n'  
+b = np.array([[5,6],[7,8]])
+
+print '第二个数组：'
+print b
+print '\n'  
+# 两个数组的维度相同
+
+print '沿轴 0 连接两个数组：'
+print np.concatenate((a,b))
+print '\n'  
+
+print '沿轴 1 连接两个数组：'
+print np.concatenate((a,b),axis = 1)
+```
+
+输出如下：
+
+```
+第一个数组：
+[[1 2]
+ [3 4]]
+
+第二个数组：
+[[5 6]
+ [7 8]]
+
+沿轴 0 连接两个数组：
+[[1 2]
+ [3 4]
+ [5 6]
+ [7 8]]
+
+沿轴 1 连接两个数组：
+[[1 2 5 6]
+ [3 4 7 8]]
+```
+
+### `numpy.stack`
+
+此函数沿新轴连接数组序列。 此功能添加自 NumPy 版本 1.10.0。 需要提供以下参数。
+
+```
+numpy.stack(arrays, axis)
+```
+
+其中：
+
++   `arrays`：相同形状的数组序列
++   `axis`：返回数组中的轴，输入数组沿着它来堆叠
+
+```
+import numpy as np
+a = np.array([[1,2],[3,4]])
+
+print '第一个数组：'
+print a
+print '\n'
+b = np.array([[5,6],[7,8]])
+
+print '第二个数组：'
+print b
+print '\n'  
+
+print '沿轴 0 堆叠两个数组：'
+print np.stack((a,b),0)
+print '\n'  
+
+print '沿轴 1 堆叠两个数组：'
+print np.stack((a,b),1)
+```
+
+输出如下：
+
+```
+第一个数组：
+[[1 2]
+ [3 4]]
+
+第二个数组：
+[[5 6]
+ [7 8]]
+
+沿轴 0 堆叠两个数组：
+[[[1 2]
+ [3 4]]
+ [[5 6]
+ [7 8]]]
+
+沿轴 1 堆叠两个数组：
+[[[1 2]
+ [5 6]]
+ [[3 4]
+ [7 8]]]
+```
+
+### `numpy.hstack`
+
+`numpy.stack`函数的变体，通过堆叠来生成水平的单个数组。
+
+例子
+
+```
+import numpy as np
+a = np.array([[1,2],[3,4]])
+
+print '第一个数组：'
+print a
+print '\n'  
+b = np.array([[5,6],[7,8]])
+
+print '第二个数组：'
+print b
+print '\n'  
+
+print '水平堆叠：'
+c = np.hstack((a,b))
+print c
+print '\n'
+```
+
+输出如下：
+
+```
+第一个数组：
+[[1 2]
+ [3 4]]
+
+第二个数组：
+[[5 6]
+ [7 8]]
+
+水平堆叠：
+[[1 2 5 6]
+ [3 4 7 8]]
+```
+
+### `numpy.vstack`
+
+`numpy.stack`函数的变体，通过堆叠来生成竖直的单个数组。
+
+```
+import numpy as np
+a = np.array([[1,2],[3,4]])
+
+print '第一个数组：'
+print a
+print '\n'  
+b = np.array([[5,6],[7,8]])
+
+print '第二个数组：'
+print b
+print '\n'
+
+print '竖直堆叠：'
+c = np.vstack((a,b))
+print c
+```
+
+输出如下：
+
+```
+第一个数组：
+[[1 2]
+ [3 4]]
+
+第二个数组：
+[[5 6]
+ [7 8]]
+
+竖直堆叠：
+[[1 2]
+ [3 4]
+ [5 6]
+ [7 8]]
+```
+
+## 数组分割
+
+| 序号 | 数组及操作 |
+| --- | --- |
+| 1. | `split` 将一个数组分割为多个子数组 |
+| 2. | `hsplit` 将一个数组水平分割为多个子数组（按列） |
+| 3. | `vsplit` 将一个数组竖直分割为多个子数组（按行） |
+
+### `numpy.split`
+
+该函数沿特定的轴将数组分割为子数组。函数接受三个参数：
+
+```
+numpy.split(ary, indices_or_sections, axis)
+```
+
+其中：
+
++   `ary`：被分割的输入数组
++   `indices_or_sections`：可以是整数，表明要从输入数组创建的，等大小的子数组的数量。 如果此参数是一维数组，则其元素表明要创建新子数组的点。
++   `axis`：默认为 0
+
+例子
+
+```
+import numpy as np
+a = np.arange(9)
+
+print '第一个数组：'
+print a
+print '\n'  
+
+print '将数组分为三个大小相等的子数组：'
+b = np.split(a,3)
+print b
+print '\n'  
+
+print '将数组在一维数组中表明的位置分割：'
+b = np.split(a,[4,7])
+print b
+```
+
+输出如下：
+
+```
+第一个数组：
+[0 1 2 3 4 5 6 7 8]
+
+将数组分为三个大小相等的子数组：
+[array([0, 1, 2]), array([3, 4, 5]), array([6, 7, 8])]
+
+将数组在一维数组中表明的位置分割：
+[array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8])]
+```
+
+### `numpy.hsplit`
+
+`numpy.hsplit`是`split()`函数的特例，其中轴为 1 表示水平分割，无论输入数组的维度是什么。
+
+```
+import numpy as np
+a = np.arange(16).reshape(4,4)
+
+print '第一个数组：'
+print a
+print '\n'  
+
+print '水平分割：'
+b = np.hsplit(a,2)
+print b
+print '\n'
+```
+
+输出：
+
+```
+第一个数组：
+[[ 0 1 2 3]
+ [ 4 5 6 7]
+ [ 8 9 10 11]
+ [12 13 14 15]]
+
+水平分割：                                                         
+[array([[ 0,  1],                                                             
+       [ 4,  5],                                                              
+       [ 8,  9],                                                              
+       [12, 13]]), array([[ 2,  3],                                           
+       [ 6,  7],                                                              
+       [10, 11],                                                              
+       [14, 15]])]
+```
+
+### `numpy.vsplit`
+
+`numpy.vsplit`是`split()`函数的特例，其中轴为 0 表示竖直分割，无论输入数组的维度是什么。下面的例子使之更清楚。
+
+```
+import numpy as np
+a = np.arange(16).reshape(4,4)
+
+print '第一个数组：'
+print a
+print '\n'
+
+print '竖直分割：'
+b = np.vsplit(a,2)
+print b
+```
+
+输出如下：
+
+```
+第一个数组：
+[[ 0 1 2 3]
+ [ 4 5 6 7]
+ [ 8 9 10 11]
+ [12 13 14 15]]
+
+竖直分割：                                                           
+[array([[0, 1, 2, 3],                                                         
+       [4, 5, 6, 7]]), array([[ 8,  9, 10, 11],                               
+       [12, 13, 14, 15]])]
+```
+
+
+## 添加/删除元素
+
+| 序号 | 元素及描述 |
+| --- | --- |
+| 1. | `resize` 返回指定形状的新数组 |
+| 2. | `append` 将值添加到数组末尾 |
+| 3. | `insert` 沿指定轴将值插入到指定下标之前 |
+| 4. | `delete` 返回删掉某个轴的子数组的新数组 |
+| 5. | `unique` 寻找数组内的唯一元素 |
+
+### `numpy.resize`
+
+此函数返回指定大小的新数组。 如果新大小大于原始大小，则包含原始数组中的元素的重复副本。 该函数接受以下参数。
+
+```
+numpy.resize(arr, shape)
+```
+
+其中：
+
++   `arr`：要修改大小的输入数组
++   `shape`：返回数组的新形状
+
+例子
+
+```
+import numpy as np
+a = np.array([[1,2,3],[4,5,6]])
+
+print '第一个数组：'
+print a
+print '\n'
+
+print '第一个数组的形状：'
+print a.shape
+print '\n'  
+b = np.resize(a, (3,2))
+
+print '第二个数组：'
+print b
+print '\n'  
+
+print '第二个数组的形状：'
+print b.shape
+print '\n'  
+# 要注意 a 的第一行在 b 中重复出现，因为尺寸变大了
+
+print '修改第二个数组的大小：'
+b = np.resize(a,(3,3))
+print b
+```
+
+输出如下：
+
+```
+第一个数组：
+[[1 2 3]
+ [4 5 6]]
+
+第一个数组的形状：
+(2, 3)
+
+第二个数组：
+[[1 2]
+ [3 4]
+ [5 6]]
+
+第二个数组的形状：
+(3, 2)
+
+修改第二个数组的大小：
+[[1 2 3]
+ [4 5 6]
+ [1 2 3]]
+```
+
+### `numpy.append`
+
+此函数在输入数组的末尾添加值。 附加操作不是原地的，而是分配新的数组。 此外，输入数组的维度必须匹配否则将生成`ValueError`。
+
+函数接受下列函数：
+
+```
+numpy.append(arr, values, axis)
+```
+
+其中：
+
++   `arr`：输入数组
++   `values`：要向`arr`添加的值，比如和`arr`形状相同（除了要添加的轴）
++   `axis`：沿着它完成操作的轴。如果没有提供，两个参数都会被展开。
+
+例子
+
+```
+import numpy as np
+a = np.array([[1,2,3],[4,5,6]])
+
+print '第一个数组：'
+print a
+print '\n'  
+
+print '向数组添加元素：'
+print np.append(a, [7,8,9])
+print '\n'  
+
+print '沿轴 0 添加元素：'
+print np.append(a, [[7,8,9]],axis = 0)
+print '\n'  
+
+print '沿轴 1 添加元素：'
+print np.append(a, [[5,5,5],[7,8,9]],axis = 1)
+```
+
+输出如下：
+
+```
+第一个数组：
+[[1 2 3]
+ [4 5 6]]
+
+向数组添加元素：
+[1 2 3 4 5 6 7 8 9]
+
+沿轴 0 添加元素：
+[[1 2 3]
+ [4 5 6]
+ [7 8 9]]
+
+沿轴 1 添加元素：
+[[1 2 3 5 5 5]
+ [4 5 6 7 8 9]]
+```
+
+## `numpy.insert`
+
+此函数在给定索引之前，沿给定轴在输入数组中插入值。 如果值的类型转换为要插入，则它与输入数组不同。 插入没有原地的，函数会返回一个新数组。 此外，如果未提供轴，则输入数组会被展开。
+
+`insert()`函数接受以下参数：
+
+```
+numpy.insert(arr, obj, values, axis)
+```
+
+其中：
+
++   `arr`：输入数组
++   `obj`：在其之前插入值的索引
++   `values`：要插入的值
++   `axis`：沿着它插入的轴，如果未提供，则输入数组会被展开
+
+例子
+
+```
+import numpy as np
+a = np.array([[1,2],[3,4],[5,6]])
+
+print '第一个数组：'
+print a
+print '\n'  
+
+print '未传递 Axis 参数。 在插入之前输入数组会被展开。'
+print np.insert(a,3,[11,12])
+print '\n'  
+print '传递了 Axis 参数。 会广播值数组来配输入数组。'
+
+print '沿轴 0 广播：'
+print np.insert(a,1,[11],axis = 0)
+print '\n'  
+
+print '沿轴 1 广播：'
+print np.insert(a,1,11,axis = 1)
+```
+
+### `numpy.delete`
+
+此函数返回从输入数组中删除指定子数组的新数组。 与`insert()`函数的情况一样，如果未提供轴参数，则输入数组将展开。 该函数接受以下参数：
+
+```
+Numpy.delete(arr, obj, axis)
+```
+
+其中：
+
++   `arr`：输入数组
++   `obj`：可以被切片，整数或者整数数组，表明要从输入数组删除的子数组
++   `axis`：沿着它删除给定子数组的轴，如果未提供，则输入数组会被展开
+
+例子
+
+```
+import numpy as np
+a = np.arange(12).reshape(3,4)
+
+print '第一个数组：'
+print a
+print '\n'  
+
+print '未传递 Axis 参数。 在插入之前输入数组会被展开。'
+print np.delete(a,5)
+print '\n'  
+
+print '删除第二列：'  
+print np.delete(a,1,axis = 1)
+print '\n'  
+
+print '包含从数组中删除的替代值的切片：'
+a = np.array([1,2,3,4,5,6,7,8,9,10])
+print np.delete(a, np.s_[::2])
+```
+
+输出如下：
+
+```
+第一个数组：
+[[ 0 1 2 3]
+ [ 4 5 6 7]
+ [ 8 9 10 11]]
+
+未传递 Axis 参数。 在插入之前输入数组会被展开。
+[ 0 1 2 3 4 6 7 8 9 10 11]
+
+删除第二列：
+[[ 0 2 3]
+ [ 4 6 7]
+ [ 8 10 11]]
+
+包含从数组中删除的替代值的切片：
+[ 2 4 6 8 10]
+```
+
+### `numpy.unique`
+
+此函数返回输入数组中的去重元素数组。 该函数能够返回一个元组，包含去重数组和相关索引的数组。 索引的性质取决于函数调用中返回参数的类型。
+
+```
+numpy.unique(arr, return_index, return_inverse, return_counts)
+```
+
+其中：
+
++   `arr`：输入数组，如果不是一维数组则会展开
++   `return_index`：如果为`true`，返回输入数组中的元素下标
++   `return_inverse`：如果为`true`，返回去重数组的下标，它可以用于重构输入数组
++   `return_counts`：如果为`true`，返回去重数组中的元素在原数组中的出现次数
+
+例子
+
+```
+import numpy as np
+a = np.array([5,2,6,2,7,5,6,8,2,9])
+
+print '第一个数组：'
+print a
+print '\n'  
+
+print '第一个数组的去重值：'
+u = np.unique(a)
+print u
+print '\n'  
+
+print '去重数组的索引数组：'
+u,indices = np.unique(a, return_index = True)
+print indices
+print '\n'  
+
+print '我们可以看到每个和原数组下标对应的数值：'
+print a
+print '\n'  
+
+print '去重数组的下标：'
+u,indices = np.unique(a,return_inverse = True)
+print u
+print '\n'
+
+print '下标为：'
+print indices
+print '\n'  
+
+print '使用下标重构原数组：'
+print u[indices]
+print '\n'  
+
+print '返回去重元素的重复数量：'
+u,indices = np.unique(a,return_counts = True)
+print u
+print indices
+```
+
+输出如下：
+
+```
+第一个数组：
+[5 2 6 2 7 5 6 8 2 9]
+
+第一个数组的去重值：
+[2 5 6 7 8 9]
+
+去重数组的索引数组：
+[1 0 2 4 7 9]
+
+我们可以看到每个和原数组下标对应的数值：
+[5 2 6 2 7 5 6 8 2 9]
+
+去重数组的下标：
+[2 5 6 7 8 9]
+
+下标为：
+[1 0 2 0 3 1 2 4 0 5]
+
+使用下标重构原数组：
+[5 2 6 2 7 5 6 8 2 9]
+
+返回唯一元素的重复数量：
+[2 5 6 7 8 9]
+ [3 2 2 1 1 1]
+```
+
+
+
+# NumPy - 位操作
+
+下面是 NumPy 包中可用的位操作函数。
+
+| 序号 | 操作及描述 |
+| --- | --- |
+| 1. | `bitwise_and` 对数组元素执行位与操作 |
+| 2. | `bitwise_or` 对数组元素执行位或操作 |
+| 3. | `invert` 计算位非 |
+| 4. | `left_shift` 向左移动二进制表示的位 |
+| 5. | `right_shift` 向右移动二进制表示的位 |
+
+## `bitwise_and`
+
+通过`np.bitwise_and()`函数对输入数组中的整数的二进制表示的相应位执行位与运算。
+
+例子
+
+```
+import numpy as np 
+print '13 和 17 的二进制形式：' 
+a,b = 13,17 
+print bin(a), bin(b) 
+print '\n'  
+
+print '13 和 17 的位与：' 
+print np.bitwise_and(13, 17)
+```
+
+输出如下：
+
+```
+13 和 17 的二进制形式：
+0b1101 0b10001
+
+13 和 17 的位与：
+1
+```
+
+你可以使用下表验证此输出。 考虑下面的位与真值表。
+
+| A | B | AND |
+| --- | --- | --- |
+| 1 | 1 | 1 |
+| 1 | 0 | 0 |
+| 0 | 1 | 0 |
+| 0 | 0 | 0 |
+
+|  |  | 1 | 1 | 0 | 1 |
+| --- | --- |
+| AND |
+| | 1 | 0 | 0 | 0 | 1 |
+| result | 0 | 0 | 0 | 0 | 1 |
+
+## `bitwise_or`
+
+通过`np.bitwise_or()`函数对输入数组中的整数的二进制表示的相应位执行位或运算。
+
+例子
+
+```
+import numpy as np 
+a,b = 13,17 
+print '13 和 17 的二进制形式：' 
+print bin(a), bin(b)  
+
+print '13 和 17 的位或：' 
+print np.bitwise_or(13, 17)
+```
+
+输出如下：
+
+```
+13 和 17 的二进制形式：
+0b1101 0b10001
+
+13 和 17 的位或：
+29
+```
+
+你可以使用下表验证此输出。 考虑下面的位或真值表。
+
+| A | B | OR |
+| --- | --- | --- |
+| 1 | 1 | 1 |
+| 1 | 0 | 1 |
+| 0 | 1 | 1 |
+| 0 | 0 | 0 |
+
+|  |  | 1 | 1 | 0 | 1 |
+| --- | --- |
+| OR | 
+| | 1 | 0 | 0 | 0 | 1 |
+| result | 1 | 1 | 1 | 0 | 1 |
+
+## `invert`
+
+此函数计算输入数组中整数的位非结果。 对于有符号整数，返回补码。
+
+例子
+
+```
+import numpy as np 
+
+print '13 的位反转，其中 ndarray 的 dtype 是 uint8：' 
+print np.invert(np.array([13], dtype = np.uint8)) 
+print '\n'  
+# 比较 13 和 242 的二进制表示，我们发现了位的反转
+
+print '13 的二进制表示：' 
+print np.binary_repr(13, width = 8) 
+print '\n'  
+
+print '242 的二进制表示：' 
+print np.binary_repr(242, width = 8)
+```
+
+输出如下：
+
+```
+13 的位反转，其中 ndarray 的 dtype 是 uint8：
+[242]
+
+13 的二进制表示：
+00001101
+
+242 的二进制表示：
+11110010
+```
+
+请注意，`np.binary_repr()`函数返回给定宽度中十进制数的二进制表示。
+
+## `left_shift`
+
+`numpy.left shift()`函数将数组元素的二进制表示中的位向左移动到指定位置，右侧附加相等数量的 0。
+
+例如，
+
+```
+import numpy as np 
+
+print '将 10 左移两位：' 
+print np.left_shift(10,2) 
+print '\n'  
+
+print '10 的二进制表示：' 
+print np.binary_repr(10, width = 8) 
+print '\n'  
+
+print '40 的二进制表示：' 
+print np.binary_repr(40, width = 8)  
+#  '00001010' 中的两位移动到了左边，并在右边添加了两个 0。
+```
+
+输出如下：
+
+```
+将 10 左移两位：
+40
+
+10 的二进制表示：
+00001010
+
+40 的二进制表示：
+00101000
+```
+
+## `right_shift`
+
+`numpy.right_shift()`函数将数组元素的二进制表示中的位向右移动到指定位置，左侧附加相等数量的 0。
+
+```
+import numpy as np 
+
+print '将 40 右移两位：' 
+print np.right_shift(40,2) 
+print '\n'  
+
+print '40 的二进制表示：' 
+print np.binary_repr(40, width = 8) 
+print '\n'  
+
+print '10 的二进制表示：' 
+print np.binary_repr(10, width = 8)  
+#  '00001010' 中的两位移动到了右边，并在左边添加了两个 0。
+```
+
+输出如下：
+
+```
+将 40 右移两位：
+10
+
+40 的二进制表示：
+00101000
+
+10 的二进制表示：
+00001010
+```
+
+
+
+
+
+
+# NumPy - 字符串函数
+
+以下函数用于对`dtype`为`numpy.string_`或`numpy.unicode_`的数组执行向量化字符串操作。 它们基于 Python 内置库中的标准字符串函数。
+
+| 序号 | 函数及描述 |
+| --- | --- |
+| 1. | `add()` 返回两个`str`或`Unicode`数组的逐个字符串连接 |
+| 2. | `multiply()` 返回按元素多重连接后的字符串 |
+| 3. | `center()` 返回给定字符串的副本，其中元素位于特定字符串的中央 |
+| 4. | `capitalize()` 返回给定字符串的副本，其中只有第一个字符串大写 |
+| 5. | `title()` 返回字符串或 Unicode 的按元素标题转换版本 |
+| 6. | `lower()` 返回一个数组，其元素转换为小写 |
+| 7. | `upper()` 返回一个数组，其元素转换为大写 |
+| 8. | `split()` 返回字符串中的单词列表，并使用分隔符来分割 |
+| 9. | `splitlines()` 返回元素中的行列表，以换行符分割 |
+| 10. | `strip()` 返回数组副本，其中元素移除了开头或者结尾处的特定字符 |
+| 11. | `join()` 返回一个字符串，它是序列中字符串的连接 |
+| 12. | `replace()` 返回字符串的副本，其中所有子字符串的出现位置都被新字符串取代 |
+| 13. | `decode()` 按元素调用`str.decode` |
+| 14. | `encode()` 按元素调用`str.encode` |
+
+这些函数在字符数组类（`numpy.char`）中定义。 较旧的 Numarray 包包含`chararray`类。 `numpy.char`类中的上述函数在执行向量化字符串操作时非常有用。
+
+## `numpy.char.add()`
+
+函数执行按元素的字符串连接。
+
+```
+import numpy as np 
+print '连接两个字符串：' 
+print np.char.add(['hello'],[' xyz']) 
+print '\n'
+
+print '连接示例：' 
+print np.char.add(['hello', 'hi'],[' abc', ' xyz'])
+```
+
+输出如下：
+
+```
+连接两个字符串：
+['hello xyz']
+
+连接示例：
+['hello abc' 'hi xyz']
+```
+
+## `numpy.char.multiply()`
+
+这个函数执行多重连接。
+
+```
+import numpy as np 
+print np.char.multiply('Hello ',3)
+```
+
+输出如下：
+
+```
+Hello Hello Hello 
+```
+
+## `numpy.char.center()`
+
+此函数返回所需宽度的数组，以便输入字符串位于中心，并使用`fillchar`在左侧和右侧进行填充。
+
+```
+import numpy as np 
+# np.char.center(arr, width,fillchar) 
+print np.char.center('hello', 20,fillchar = '*')
+```
+
+输出如下：
+
+```
+*******hello********
+```
+
+## `numpy.char.capitalize()`
+
+函数返回字符串的副本，其中第一个字母大写
+
+```
+import numpy as np 
+print np.char.capitalize('hello world')
+```
+
+输出如下：
+
+```
+Hello world 
+```
+
+## `numpy.char.title()`
+
+返回输入字符串的按元素标题转换版本，其中每个单词的首字母都大写。
+
+```
+import numpy as np 
+print np.char.title('hello how are you?')
+```
+
+输出如下：
+
+```
+Hello How Are You?
+```
+
+## `numpy.char.lower()`
+
+函数返回一个数组，其元素转换为小写。它对每个元素调用`str.lower`。
+
+```
+import numpy as np 
+print np.char.lower(['HELLO','WORLD']) 
+print np.char.lower('HELLO')
+```
+
+输出如下：
+
+```
+['hello' 'world']
+hello
+```
+
+## `numpy.char.upper()`
+
+函数返回一个数组，其元素转换为大写。它对每个元素调用`str.upper`。
+
+```
+import numpy as np 
+print np.char.upper('hello') 
+print np.char.upper(['hello','world'])
+```
+
+
+输出如下：
+
+```
+HELLO
+['HELLO' 'WORLD']
+```
+
+## `numpy.char.split()`
+
+此函数返回输入字符串中的单词列表。 默认情况下，空格用作分隔符。 否则，指定的分隔符字符用于分割字符串。
+
+```
+import numpy as np 
+print np.char.split ('hello how are you?') 
+print np.char.split ('TutorialsPoint,Hyderabad,Telangana', sep = ',')
+```
+
+输出如下：
+
+```
+['hello', 'how', 'are', 'you?']
+['TutorialsPoint', 'Hyderabad', 'Telangana']
+```
+
+## `numpy.char.splitlines()`
+
+函数返回数组中元素的单词列表，以换行符分割。
+
+```
+import numpy as np 
+print np.char.splitlines('hello\nhow are you?') 
+print np.char.splitlines('hello\rhow are you?')
+```
+
+输出如下：
+
+```
+['hello', 'how are you?']
+['hello', 'how are you?']
+```
+
+`'\n'`，`'\r'`，`'\r\n'`都会用作换行符。
+
+## `numpy.char.strip()`
+
+函数返回数组的副本，其中元素移除了开头或结尾处的特定字符。
+
+```
+import numpy as np 
+print np.char.strip('ashok arora','a') 
+print np.char.strip(['arora','admin','java'],'a')
+```
+
+输出如下：
+
+```
+shok aror
+['ror' 'dmin' 'jav']
+```
+
+## `numpy.char.join()`
+
+这个函数返回一个字符串，其中单个字符由特定的分隔符连接。
+
+```
+import numpy as np 
+print np.char.join(':','dmy') 
+print np.char.join([':','-'],['dmy','ymd'])
+```
+
+输出如下：
+
+```
+d:m:y
+['d:m:y' 'y-m-d']
+```
+
+## `numpy.char.replace()`
+
+这个函数返回字符串副本，其中所有字符序列的出现位置都被另一个给定的字符序列取代。
+
+```
+import numpy as np 
+print np.char.replace ('He is a good boy', 'is', 'was')
+```
+
+输出如下：
+
+```
+He was a good boy
+```
+
+## `numpy.char.decode()`
+
+这个函数在给定的字符串中使用特定编码调用`str.decode()`。
+
+```
+import numpy as np 
+
+a = np.char.encode('hello', 'cp500') 
+print a 
+print np.char.decode(a,'cp500')
+```
+
+输出如下：
+
+```
+\x88\x85\x93\x93\x96
+hello
+```
+
+## `numpy.char.encode()`
+
+此函数对数组中的每个元素调用`str.encode`函数。 默认编码是`utf_8`，可以使用标准 Python 库中的编解码器。
+
+```
+import numpy as np 
+a = np.char.encode('hello', 'cp500') 
+print a
+```
+
+输出如下：
+
+```
+\x88\x85\x93\x93\x96
+```
+
+
+
+
+
+# NumPy - 算数函数
+
+很容易理解的是，NumPy 包含大量的各种数学运算功能。 NumPy 提供标准的三角函数，算术运算的函数，复数处理函数等。
+
+## 三角函数
+
+NumPy 拥有标准的三角函数，它为弧度制单位的给定角度返回三角函数比值。
+
+**示例**
+
+```
+import numpy as np
+a = np.array([0,30,45,60,90])  
+print  '不同角度的正弦值：'  
+# 通过乘 pi/180 转化为弧度  
+print np.sin(a*np.pi/180)  
+print  '\n'  
+print  '数组中角度的余弦值：'  
+print np.cos(a*np.pi/180)  
+print  '\n'  
+print  '数组中角度的正切值：'  
+print np.tan(a*np.pi/180)  
+```
+
+输出如下：
+
+```
+不同角度的正弦值：                                                   
+[ 0.          0.5         0.70710678  0.8660254   1.        ]                 
+
+数组中角度的余弦值：                                         
+[  1.00000000e+00   8.66025404e-01   7.07106781e-01   5.00000000e-01          
+   6.12323400e-17]                                                            
+
+数组中角度的正切值：                                            
+[  0.00000000e+00   5.77350269e-01   1.00000000e+00   1.73205081e+00          
+   1.63312394e+16]
+
+```
+
+`arcsin`，`arccos`，和`arctan`函数返回给定角度的`sin`，`cos`和`tan`的反三角函数。 这些函数的结果可以通过`numpy.degrees()`函数通过将弧度制转换为角度制来验证。
+
+**示例**
+
+```
+import numpy as np
+a = np.array([0,30,45,60,90])  
+print  '含有正弦值的数组：'
+sin = np.sin(a*np.pi/180)  
+print sin
+print  '\n'  
+print  '计算角度的反正弦，返回值以弧度为单位：'
+inv = np.arcsin(sin)  
+print inv
+print  '\n'  
+print  '通过转化为角度制来检查结果：'  
+print np.degrees(inv)  
+print  '\n'  
+print  'arccos 和 arctan 函数行为类似：'
+cos = np.cos(a*np.pi/180)  
+print cos
+print  '\n'  
+print  '反余弦：'
+inv = np.arccos(cos)  
+print inv
+print  '\n'  
+print  '角度制单位：'  
+print np.degrees(inv)  
+print  '\n'  
+print  'tan 函数：'
+tan = np.tan(a*np.pi/180)  
+print tan
+print  '\n'  
+print  '反正切：'
+inv = np.arctan(tan)  
+print inv
+print  '\n'  
+print  '角度制单位：'  
+print np.degrees(inv)  
+```
+
+输出如下：
+
+```
+含有正弦值的数组：
+[ 0.          0.5         0.70710678  0.8660254   1.        ]
+
+计算角度的反正弦，返回值以弧度制为单位：
+[ 0.          0.52359878  0.78539816  1.04719755  1.57079633]
+
+通过转化为角度制来检查结果：
+[  0.  30.  45.  60.  90.]
+
+arccos 和 arctan 函数行为类似：
+[  1.00000000e+00   8.66025404e-01   7.07106781e-01   5.00000000e-01          
+   6.12323400e-17]
+
+反余弦：
+[ 0.          0.52359878  0.78539816  1.04719755  1.57079633]
+
+角度制单位：
+[  0.  30.  45.  60.  90.]
+
+tan 函数：
+[  0.00000000e+00   5.77350269e-01   1.00000000e+00   1.73205081e+00          
+   1.63312394e+16]
+
+反正切：
+[ 0.          0.52359878  0.78539816  1.04719755  1.57079633]
+
+角度制单位：
+[  0.  30.  45.  60.  90.]
+
+```
+
+## 舍入函数
+
+### `numpy.around()`
+
+这个函数返回四舍五入到所需精度的值。 该函数接受以下参数。
+
+```
+numpy.around(a,decimals)
+
+```
+
+其中：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `a` 输入数组 |
+| 2. | `decimals` 要舍入的小数位数。 默认值为0。 如果为负，整数将四舍五入到小数点左侧的位置 |
+
+**示例**
+
+```
+import numpy as np
+a = np.array([1.0,5.55,  123,  0.567,  25.532])  
+print  '原数组：'  
+print a
+print  '\n'  
+print  '舍入后：'  
+print np.around(a)  
+print np.around(a, decimals =  1)  
+print np.around(a, decimals =  -1)
+```
+
+输出如下：
+
+```
+原数组：                                                          
+[   1.       5.55   123.       0.567   25.532]
+
+舍入后：                                                         
+[   1.    6.   123.    1.   26. ]                                               
+[   1.    5.6  123.    0.6  25.5]                                          
+[   0.    10.  120.    0.   30. ]
+
+```
+
+### `numpy.floor()`
+
+此函数返回不大于输入参数的最大整数。 即标量`x` 的下限是最大的整数`i` ，使得`i <= x `。 注意在Python中，向下取整总是从 0 舍入。
+
+**示例**
+
+```
+import numpy as np
+a = np.array([-1.7,  1.5,  -0.2,  0.6,  10])  
+print  '提供的数组：'  
+print a
+print  '\n'  
+print  '修改后的数组：'  
+print np.floor(a)
+```
+
+输出如下：
+
+```
+提供的数组：                                                            
+[ -1.7   1.5  -0.2   0.6  10. ]
+
+修改后的数组：                                                         
+[ -2.   1.  -1.   0.  10.]
+
+```
+
+### `numpy.ceil()`
+
+`ceil()`函数返回输入值的上限，即，标量`x`的上限是最小的整数`i` ，使得` i> = x`。
+
+**示例**
+
+```
+import numpy as np
+a = np.array([-1.7,  1.5,  -0.2,  0.6,  10])  
+print  '提供的数组：'  
+print a
+print  '\n'  
+print  '修改后的数组：'  
+print np.ceil(a)
+```
+
+输出如下：
+
+```
+提供的数组：
+[ -1.7   1.5  -0.2   0.6  10. ]
+
+修改后的数组：
+[ -1.   2.  -0.   1.  10.]
+
+```
+
+
