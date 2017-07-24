@@ -776,3 +776,191 @@ print x
 
 ```
 
+
+
+# NumPy - 来自现有数据的数组
+
+这一章中，我们会讨论如何从现有数据创建数组。
+
+## `numpy.asarray`
+
+此函数类似于`numpy.array`，除了它有较少的参数。 这个例程对于将 Python 序列转换为`ndarray`非常有用。
+
+```
+numpy.asarray(a, dtype = None, order = None)
+
+```
+
+构造器接受下列参数：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `a` 任意形式的输入参数，比如列表、列表的元组、元组、元组的元组、元组的列表 |
+| 2. | `dtype` 通常，输入数据的类型会应用到返回的`ndarray` |
+| 3. | `order` `'C'`为按行的 C 风格数组，`'F'`为按列的 Fortran 风格数组 |
+
+下面的例子展示了如何使用`asarray`函数：
+
+### 示例 1
+
+```
+# 将列表转换为 ndarray 
+import numpy as np 
+
+x =  [1,2,3] 
+a = np.asarray(x)  
+print a
+```
+
+输出如下：
+
+```
+[1  2  3] 
+
+```
+
+### 示例 2
+
+```
+# 设置了 dtype  
+import numpy as np 
+
+x =  [1,2,3] 
+a = np.asarray(x, dtype =  float)  
+print a
+```
+
+输出如下：
+
+```
+[ 1.  2.  3.] 
+
+```
+
+### 示例 3
+
+```
+# 来自元组的 ndarray  
+import numpy as np 
+
+x =  (1,2,3) 
+a = np.asarray(x)  
+print a
+```
+
+输出如下：
+
+```
+[1  2  3]
+
+```
+
+### 示例 4
+
+```
+# 来自元组列表的 ndarray
+import numpy as np 
+
+x =  [(1,2,3),(4,5)] 
+a = np.asarray(x)  
+print a
+```
+
+输出如下：
+
+```
+[(1, 2, 3) (4, 5)]
+
+```
+
+## `numpy.frombuffer`
+
+此函数将缓冲区解释为一维数组。 暴露缓冲区接口的任何对象都用作参数来返回`ndarray`。
+
+```
+numpy.frombuffer(buffer, dtype = float, count = -1, offset = 0)
+
+```
+
+构造器接受下列参数：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `buffer` 任何暴露缓冲区借口的对象 |
+| 2. | `dtype` 返回数组的数据类型，默认为`float` |
+| 3. | `count` 需要读取的数据数量，默认为`-1`，读取所有数据 |
+| 4. | `offset` 需要读取的起始位置，默认为`0` |
+
+### 示例
+
+下面的例子展示了`frombuffer`函数的用法。
+
+```
+import numpy as np 
+s =  'Hello World' 
+a = np.frombuffer(s, dtype =  'S1')  
+print a
+```
+
+输出如下：
+
+```
+['H'  'e'  'l'  'l'  'o'  ' '  'W'  'o'  'r'  'l'  'd']
+
+```
+
+## `numpy.fromiter`
+
+此函数从任何可迭代对象构建一个`ndarray`对象，返回一个新的一维数组。
+
+```
+numpy.fromiter(iterable, dtype, count = -1)
+
+```
+
+构造器接受下列参数：
+
+| 序号 | 参数及描述 |
+| --- | --- |
+| 1. | `iterable` 任何可迭代对象 |
+| 2. | `dtype` 返回数组的数据类型 |
+| 3. | `count` 需要读取的数据数量，默认为`-1`，读取所有数据 |
+
+以下示例展示了如何使用内置的`range()`函数返回列表对象。 此列表的迭代器用于形成` ndarray`对象。
+
+### 示例 1
+
+```
+# 使用 range 函数创建列表对象  
+import numpy as np 
+list = range(5)  
+print list
+```
+
+输出如下：
+
+```
+[0,  1,  2,  3,  4]
+
+```
+
+### 示例 2
+
+```
+# 从列表中获得迭代器  
+import numpy as np 
+list = range(5) 
+it = iter(list)  
+# 使用迭代器创建 ndarray 
+x = np.fromiter(it, dtype =  float)  
+print x
+```
+
+输出如下：
+
+```
+[0.   1.   2.   3.   4.]
+
+```
+
+
