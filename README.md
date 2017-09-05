@@ -1,2 +1,2 @@
-# awesome-machine-learning
+# awesome machine learning
 machine learning resources
