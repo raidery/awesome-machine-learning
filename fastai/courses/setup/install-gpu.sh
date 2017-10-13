@@ -53,7 +53,7 @@ sudo cp lib64/* /usr/local/cuda/lib64/
 sudo cp include/* /usr/local/cuda/include/
 
 # configure jupyter and prompt for password
-jupyter notebook --generate-config
+jupyter notebook --generate-config --allow-root
 jupass=`python -c "from notebook.auth import passwd; print(passwd())"`
 echo "c.NotebookApp.password = u'"$jupass"'" >> $HOME/.jupyter/jupyter_notebook_config.py
 echo "c.NotebookApp.ip = '*'
@@ -64,3 +64,5 @@ cd ~
 git clone https://github.com/fastai/courses.git
 echo "\"jupyter notebook\" will start Jupyter on port 8888"
 echo "If you get an error instead, try restarting your session so your $PATH is updated"
+tmux
+jupyter notebook --allow-root
