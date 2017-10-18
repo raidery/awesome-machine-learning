@@ -1,5 +1,7 @@
 ### Pattern Recognition and Machine Learning
 
+https://github.com/PRML/PRMLT
+
 https://github.com/lijin-THU/notes-machine-learning/tree/master/Pattern-Recognition-and-Machine-Learning
 
 http://blog.csdn.net/nietzsche2015
