@@ -66,3 +66,6 @@ To do so, just fork this repository.
 
 
 https://github.com/rndbrtrnd/udacity-deep-learning
+
+Neural Networks and Deep Learning
+https://github.com/mnielsen/neural-networks-and-deep-learning
