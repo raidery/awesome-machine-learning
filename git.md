@@ -22,4 +22,18 @@ git commit -m "commit"
 git push -u origin master
 ```
 
+
+```
+execute the md document
+pip install https://github.com/mli/notedown/tarball/master
+
+pip install jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+jupyter nbextension enable execute_time/ExecuteTime
+
+jupyter notebook --allow-root
+
+```
+
+
 https://community.cloud.databricks.com/login.html?user=raidery%40gmail.com
