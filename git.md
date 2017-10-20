@@ -22,4 +22,4 @@ git commit -m "commit"
 git push -u origin master
 ```
 
-https://community.cloud.databricks.com/login.html
+https://community.cloud.databricks.com/login.html?user=raidery%40gmail.com
