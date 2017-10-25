@@ -48,5 +48,6 @@ starting point:
 
 
 https://github.com/kaleko/CourseraML
+
 https://yoyoyohamapi.gitbooks.io/mit-ml/content/
 
