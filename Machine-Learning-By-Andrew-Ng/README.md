@@ -60,3 +60,6 @@ http://blog.csdn.net/qq_27008079/article/details/70527140
 
 http://blog.csdn.net/column/details/15693.html
 
+
+http://www.holehouse.org/mlclass/index.html
+
