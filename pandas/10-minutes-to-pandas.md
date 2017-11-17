@@ -1,5 +1,6 @@
 # 十分钟搞定 pandas
 
+
 > 原文：[10 Minutes to pandas](http://pandas.pydata.org/pandas-docs/stable/10min.html)
 
 > 译者：[ChaoSimple](http://home.cnblogs.com/u/chaosimple/)
@@ -7,6 +8,7 @@
 > 来源：[【原】十分钟搞定pandas](https://github.com/wizardforcel/pandas-official-tut-zh/blob/master/10-minutes-to-pandas.md)
 
 官方网站上《10 Minutes to pandas》的一个简单的翻译，原文在[这里](http://pandas.pydata.org/pandas-docs/stable/10min.html)。这篇文章是对 pandas 的一个简单的介绍，详细的介绍请参考：[秘籍](http://pandas.pydata.org/pandas-docs/stable/cookbook.html#cookbook)  。习惯上，我们会按下面格式引入所需要的包：
+
 
 ```py
 In [1]: import pandas as pd
