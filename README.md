@@ -5,4 +5,6 @@ machine learning resources
 
 [notes-python](http://nbviewer.jupyter.org/github/lijin-THU/notes-python/blob/master/02-python-essentials/02.01-a-tour-of-python.ipynb)
 
-https://github.com/donnemartin/data-science-ipython-notebooks
+https://github.com/donnemartin/data-science-ipython-notebook
+
+update index
