@@ -1,5 +1,7 @@
- > CHAID——Chi-squared Automatic Interaction Detector卡方自交互侦测决策树
+> CHAID——Chi-squared Automatic Interaction Detector卡方自交互侦测决策树
+ 
 > CRT——Classification Regression Tree分类回归树；  
 
 CHAID和CART是最有名的分类树方法，主要用于预测和分类。在市场研究中经常用于市场细分和客户促销研究，属于监督类分析技术。其中，树根节点是独立变量-因变量，例如：使用水平、购买倾向、用户或非用户、客户类型、套餐类别、细分类别等。子节点基于独立变量和其他分类变量（父节点），按照卡方显著性不断划分或组合为树状结构。预测变量一般也是非数量型的分类变量。
+
 CHAID最常用，但独立变量只能是分类变量，也就是离散性的，CRT可以处理数量型变量，有时候二者结合使用。CHAID和CRT都可以处理非数量型和定序性变量。
