@@ -82,6 +82,8 @@ https://github.com/krasserm/machine-learning-notebooks
 
 ----
 
+线性代数笔记
+
 - 【参考笔记1】 线性代数复习及参考
 - 【参考笔记2】 [概率论复习](sn02.ipynb)
 - 【参考笔记3】 MATLAB入门
@@ -93,3 +95,6 @@ https://github.com/krasserm/machine-learning-notebooks
 - 【参考笔记9】 高斯过程
 
 笔记格式借鉴[Jin Li](https://github.com/lijin-THU/)的[机器学习笔记](https://github.com/lijin-THU/notes-machine-learning)。
+
+
+
