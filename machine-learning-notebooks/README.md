@@ -97,4 +97,5 @@ https://github.com/krasserm/machine-learning-notebooks
 笔记格式借鉴[Jin Li](https://github.com/lijin-THU/)的[机器学习笔记](https://github.com/lijin-THU/notes-machine-learning)。
 
 
+https://github.com/scikit-learn-contrib/hdbscan
 
