@@ -63,3 +63,6 @@ http://blog.csdn.net/column/details/15693.html
 
 http://www.holehouse.org/mlclass/index.html
 
+http://blog.csdn.net/column/details/machinelearningnotes.html
+
+https://yoyoyohamapi.gitbooks.io/mit-ml/content/
