@@ -15,3 +15,6 @@ fit_model = model.fit(dataset, train_labels)
 print fit_model.get_params()
 
 ```
+
+
+https://tech.yandex.com/catboost/doc/dg/concepts/python-quickstart-docpage/
