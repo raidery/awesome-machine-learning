@@ -25,3 +25,7 @@ print fit_model.get_params()
 
 
 https://tech.yandex.com/catboost/doc/dg/concepts/python-quickstart-docpage/
+
+
+-------------
+https://github.com/Microsoft/LightGBM
