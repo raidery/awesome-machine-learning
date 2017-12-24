@@ -2,6 +2,9 @@ XGBoost doesn't support categorical features directly, you need to do the prepro
 
 CatBoost does have categorical features support - both, one-hot encoding and calculation of different statistics on categorical features. To use one-hot encoding you need to enable it with one_hot_max_size parameter, by default statistics are calculated. Statistics usually work better for categorical features with many values.
 
+
+----------------------
+
 Test CatBoost
 
 Use the following example to test CatBoost:
