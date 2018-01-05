@@ -65,3 +65,7 @@ http://www.holehouse.org/mlclass/index.html
 http://blog.csdn.net/column/details/machinelearningnotes.html
 
 https://yoyoyohamapi.gitbooks.io/mit-ml/content/
+
+- Python Machine Learning
+
+https://github.com/tirthajyoti/PythonMachineLearning
