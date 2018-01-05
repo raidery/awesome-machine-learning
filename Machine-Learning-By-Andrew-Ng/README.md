@@ -52,7 +52,7 @@ https://github.com/kaleko/CourseraML
 
 https://yoyoyohamapi.gitbooks.io/mit-ml/content/
 
--- 学习笔记
+- 学习笔记
 
 https://zhuanlan.zhihu.com/Redstone
 
