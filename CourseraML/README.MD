@@ -8,3 +8,5 @@ http://blog.csdn.net/qq_27008079/article/details/70527140
 Coursera ML笔记 - 神经网络（Representation）
 
 http://blog.csdn.net/walilk/article/details/50278697
+
+http://www.ai-start.com/ml2014/week1.html#header-n401
