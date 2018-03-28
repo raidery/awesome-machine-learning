@@ -44,3 +44,6 @@ http://course.fast.ai/
 ## Week 3-4 
 Re-implement DL projects from my github
 https://github.com/llSourcell?tab=repositories
+
+
+https://github.com/alberduris/Reinforcement_Learning_AI_Video_Games
