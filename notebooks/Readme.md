@@ -9,3 +9,5 @@ http://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html#sphx-
 
 
 http://blog.3blades.io/blog/how-to-use-jupyter-notebook-with-apache-spark-d935335de6bd
+
+https://github.com/albertcthomas/anomaly_tuning
