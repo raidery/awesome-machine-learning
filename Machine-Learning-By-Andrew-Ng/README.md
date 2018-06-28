@@ -69,3 +69,10 @@ https://yoyoyohamapi.gitbooks.io/mit-ml/content/
 - Python Machine Learning
 
 https://github.com/tirthajyoti/PythonMachineLearning
+
+anomaly-detection
+
+https://www.coursera.org/lecture/machine-learning/anomaly-detection-vs-supervised-learning-Rkc5x
+
+https://github.com/albertcthomas/anomaly_tuning/blob/master/demo_anomaly_tuning.ipynb
+
