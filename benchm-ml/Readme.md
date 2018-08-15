@@ -16,3 +16,6 @@ devtools::install_github("dmlc/xgboost", subdir = "R-package")
 EOF
 
 ```
+
+https://datawookie.netlify.com/blog/2015/12/installing-xgboost-on-ubuntu/
+
