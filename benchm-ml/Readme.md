@@ -5,7 +5,8 @@ A minimal benchmark for scalability, speed and accuracy of commonly used open so
 ```Shell
 
 apt-get install r-base-dev libcurl4-openssl-dev libssl-dev
-``
+
+```
 
 ```Python
 
@@ -14,4 +15,4 @@ install.packages(c("data.table","readr","randomForest","gbm","glmnet","ROCR","de
 devtools::install_github("dmlc/xgboost", subdir = "R-package")
 EOF
 
-``
+```
