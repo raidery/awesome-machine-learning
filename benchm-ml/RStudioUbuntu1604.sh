@@ -15,3 +15,4 @@ sudo apt-get install r-base-dev
 sudo apt-get install gdebi-core
 wget https://download1.rstudio.org/rstudio-1.0.44-amd64.deb
 sudo gdebi rstudio-1.0.44-amd64.deb
+rm rstudio-1.0.44-amd64.deb
