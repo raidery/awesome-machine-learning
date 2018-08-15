@@ -8,7 +8,7 @@ apt-get install r-base-dev libcurl4-openssl-dev libssl-dev
 
 ```
 
-```Python
+```Shell  Python
 
 R --vanilla << EOF
 install.packages(c("data.table","readr","randomForest","gbm","glmnet","ROCR","devtools"), repos="http://cran.rstudio.com")
