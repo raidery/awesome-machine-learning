@@ -61,7 +61,7 @@
 
 圆的面积公式：
 
-[![](../_assets/公式_20180625144700.png)](http://www.codecogs.com/eqnedit.php?latex=Aera=\pi&space;R^2)
+[![](https://github.com/imhuay/Algorithm_Interview_Notes-Chinese/blob/master/_assets/公式_20180625144700.png)](http://www.codecogs.com/eqnedit.php?latex=Aera=\pi&space;R^2)
 
 **如何从积分的角度推导出圆的面积公式？**
 
