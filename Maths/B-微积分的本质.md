@@ -61,17 +61,17 @@
 
 圆的面积公式：
 
-[![](https://github.com/imhuay/Algorithm_Interview_Notes-Chinese/blob/master/_assets/公式_20180625144700.png)](http://www.codecogs.com/eqnedit.php?latex=Aera=\pi&space;R^2)
+[![](https://raw.githubusercontent.com/imhuay/Algorithm_Interview_Notes-Chinese/master/_assets/TIM%E6%88%AA%E5%9B%BE20180625150305.png)](http://www.codecogs.com/eqnedit.php?latex=Aera=\pi&space;R^2)
 
 **如何从积分的角度推导出圆的面积公式？**
 
 不同的划分方法会带来不同的积分公式，下面考虑将圆划分为大量的同心圆环，这种方法保留了圆的对称性。
 
-![](../_assets/TIM截图20180625150305.png)
+![](https://raw.githubusercontent.com/imhuay/Algorithm_Interview_Notes-Chinese/master/_assets/TIM截图20180625150305.png)
 
 考虑其中一个环的面积，可以将其看做一个“类矩形”
 
-![](../_assets/TIM截图20180625150437.png)
+![](https://raw.githubusercontent.com/imhuay/Algorithm_Interview_Notes-Chinese/master/_assets/TIM截图20180625150437.png)
 
 虽然这不是标准的矩形，但只要`dr`越小，它就越接近。它的面积可表示为：
 
